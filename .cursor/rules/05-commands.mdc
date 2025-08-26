@@ -1,0 +1,99 @@
+---
+alwaysApply: false
+---
+
+# AI Dev Commands (Slash Lexicon)
+
+## When to apply
+- Whenever a prompt includes a leading **slash-command** (e.g., `/develop`, `/debug`).
+
+
+## Rule
+- Commands **inherit** all gates from the Workflow rule. If a command would violate the workflow (e.g., change a contract without a SPEC/ADR), **stop and generate the required artifact(s)** first.
+
+
+## Commands
+
+### `/develop`
+**Intent:** Implement a **FEATURE** end-to-end (scaffold/modify code, tests, minimal docs).  
+**Requires:** link to FEATURE file  
+**Output must include:**
+- **Plan:** impacted modules, contracts, risks.
+- **Code diff or file list** with key snippets.
+- **Tests:** unit + integration.
+- **Docs:** if contracts touched, propose SPEC snapshot/ADR stubs; update checkboxes for `docs/features/ft-<ID>-<slug>.md`.
+- **Commit suggestions:** Conventional Commit lines with `(#ft-<ID>)`.
+
+> If an API/schema changes, first emit a SPEC snapshot filename suggestion `spec-YYYYMMDD-<spec>.md` and an ADR stub name.
+
+
+### `/debug`
+**Intent:** Diagnose and fix a failure from logs/tests.  
+**Requires:** Repro steps, failing cmd, stack trace or error.  
+**Output must include:** root cause, minimal fix, diff/snippets, **test that fails before & passes after**, and a rerun plan.
+
+
+### `/refactor`
+**Intent:** Improve structure without changing behavior.  
+**Requires:** Scope and goals (e.g., extract module, remove duplication).  
+**Output:** safety plan, diffs/snippets, unchanged public API note, tests proving invariance (golden I/O or contract tests).
+
+
+### `/test`
+**Intent:** Create or strengthen tests from acceptance criteria.  
+**Requires:** feature ID and criteria or target modules.  
+**Output:** unit + integration tests, fixtures, coverage goals, how to run.
+
+
+### `/eval`
+**Intent:** Add/update LLM/prompt **evaluation** harness.  
+**Requires:** task definition, dataset/goldens location, metrics/thresholds.  
+**Output:** eval script, dataset spec, threshold gate, CI snippet.
+
+
+### `/doc`
+**Intent:** Update or add **documentation**.  
+**Requires:** target doc + purpose.  
+**Output:** updated sections/snippets for:
+- `docs/specs/spec-YYYYMMDD-<spec>.md` (if needed)
+- `docs/features/ft-<ID>-<slug>.md` (checklist, design diffs)
+- `docs/op-notes/op-<ID>-<slug>.md` (if ops impact)
+
+
+### `/spec`
+**Intent:** Create/update a **TECH SPEC** snapshot.  
+**Requires:** scope (`system|api|frontend|llm`), reason for update (contracts/topology/framework roles/SLOs).  
+**Output:** filename `spec-YYYYMMDD-<spec>.md`, with:
+- **Architecture:** comprehensive diagram (frameworks + relationships) and **component inventory** table.
+- Updated sections for contracts, reliability (SLOs), data/storage, security, eval plan, rollout, risks, **Changelog**.
+- Update note for `docs/specs/index.md`.
+
+
+### `/adr`
+**Intent:** Record a non-trivial decision.  
+**Requires:** decision, context, alternatives, consequences, rollback.  
+**Output:** filename `docs/adrs/adr-YYYYMMDD-<slug>.md` with required sections; link from SPEC/FEATURE.
+
+
+### `/migrate`
+**Intent:** Create a safe DB/data migration.  
+**Requires:** current vs target schema, data volume, downtime constraints.  
+**Output:** migration script name, forward/backward steps, verification SQL, SPEC Data & Storage update.
+
+
+### `/review`
+**Intent:** Code review with governance checks.  
+**Requires:** diff summary or file list.  
+**Output:** findings by category (correctness, contracts, tests, security, performance), required artifacts (SPEC/ADR/OP-NOTE), and a ready PR body linking PRD/SPEC/ADR/FEATURE.
+
+
+### `/optimize`
+**Intent:** Improve performance/cost with a measurement plan.  
+**Requires:** baseline metrics and target.  
+**Output:** hypothesis, changes, risk, rollback, benchmark script, expected deltas, and SLO impact.
+
+
+### `/commit`
+**Intent:** Generate Conventional Commit messages for staged changes.  
+**Requires:** scope + summary per change.  
+**Output:** lines like: feat: compute G/Y/R with cache (#ft-123), test: add ScoreV1 schema contract tests (#ft-123)
