@@ -1,4 +1,4 @@
-# VibeFlow — Docs-first vibe coding workflow for Cursor & GitHub ⚡
+# VibeFlow-Cursor — Docs-first vibe coding workflow for Cursor ⚡
 
 Welcome! This repo helps you **code with great vibes**: clear docs, crisp specs, traceable work, and consistent releases. It’s a **drop-in, docs-as-code workflow** (with Cursor rules + slash commands) that keeps projects fast and tidy.
 
